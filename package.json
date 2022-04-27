@@ -1,0 +1,17 @@
+{
+  "name": "monorepo-typescript",
+  "version": "1.0.0",
+  "description": "Monorepo version 1",
+  "main": "index.js",
+  "scripts": {
+    "start": "WEBPACK_MODE=development NODEMON=true webpack --progress --config ./config/webpack.js --env",
+    "build": "WEBPACK_MODE=production webpack --progress --config ./config/webpack.js --env",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "uraychrisna",
+  "license": "ISC",
+  "workspaces": [
+    "src/packages/common",
+    "src/packages/demo"
+  ]
+}
