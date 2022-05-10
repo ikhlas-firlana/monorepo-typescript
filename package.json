@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Monorepo version 1",
   "main": "index.js",
+  "engines": {
+    "node": "16",
+    "npm": "8"
+  },
   "scripts": {
     "start": "WEBPACK_MODE=development NODEMON=true webpack --progress --config ./config/webpack.js --env",
     "build": "WEBPACK_MODE=production webpack --progress --config ./config/webpack.js --env",
