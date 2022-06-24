@@ -1,3 +1,3 @@
 (async () => {
-  console.log('test frontend.');
+  console.log('test frontend...');
 })();

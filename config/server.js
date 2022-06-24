@@ -60,12 +60,12 @@ const handler = (env) => {
       devtool: process.env.WEBPACK_MODE === 'development' ? 'eval' : 'source-map',
     };
 
-    if (process.env.NODEMON === 'true' && env?.exec) {
+    if (process.env.WEBPACK_MODE === 'development' && process.env.NODEMON === 'true' && env?.exec) {
       options.plugins.push(
         new NodemonPlugin({
           script: `${outdir}/${env?.source}/${env?.exec}`,
           watch: [`${outdir}/${env?.source}`, `${path.resolve(__dirname, '..')}/src/packages/${env?.source}`],
-          ignore: [`${outdir}/${env?.source}/client`, `${path.resolve(__dirname, '..')}/src/packages/${env?.source}/client`],
+          ignore: [`${outdir}/${env?.source}/client`, `${path.resolve(__dirname, '..')}/src/packages/${env?.source}/client`]
         }),
       );
     }
