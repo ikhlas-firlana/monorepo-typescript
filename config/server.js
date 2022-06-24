@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -8,8 +9,8 @@ const outdir = path.resolve(__dirname, '..') + '/dist';
 
 const handler = (env) => {
   if (env?.source && compiler[env?.source]?.server) {
-    const ignoreSources = Object.keys(compiler)
-      .filter((val) => val !== env?.source)
+    const excludeFiles = fs.readdirSync(path.resolve(__dirname, '..') + '/src/packages')
+      .filter((val) => val !== env.source)
       .map((val) => `${path.resolve(__dirname, '..')}/src/packages/${val}/**`);
 
     const options = {
@@ -40,6 +41,9 @@ const handler = (env) => {
           cleanOnceBeforeBuildPatterns: [`${outdir}/${env?.source}`],
         }),
         new ForkTsCheckerWebpackPlugin({
+          issue: {
+            exclude: excludeFiles.map((file) => ({ file })),
+          },
           typescript: {
             diagnosticOptions: {
               semantic: true,
@@ -56,7 +60,7 @@ const handler = (env) => {
         modules: false,
       },
       watch: process.env.WEBPACK_MODE === 'development',
-      watchOptions: ignoreSources.length !== 0 ? {ignored: ignoreSources} : {},
+      watchOptions: excludeFiles.length !== 0 ? {ignored: excludeFiles} : {},
       devtool: process.env.WEBPACK_MODE === 'development' ? 'eval' : 'source-map',
     };
 
@@ -65,7 +69,11 @@ const handler = (env) => {
         new NodemonPlugin({
           script: `${outdir}/${env?.source}/${env?.exec}`,
           watch: [`${outdir}/${env?.source}`, `${path.resolve(__dirname, '..')}/src/packages/${env?.source}`],
-          ignore: [`${outdir}/${env?.source}/client`, `${path.resolve(__dirname, '..')}/src/packages/${env?.source}/client`]
+          ignore: [
+            `${outdir}/${env?.source}/client`,
+            `${path.resolve(__dirname, '..')}/src/packages/${env?.source}/client`,
+            ...excludeFiles,
+          ]
         }),
       );
     }

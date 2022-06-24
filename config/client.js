@@ -13,8 +13,8 @@ const outdir = path.resolve(__dirname, '..') + '/dist';
 const handler = (env) => {
   if (env?.source && compiler[env?.source]?.client) {
     const htmlPath = `${path.resolve(__dirname, '..')}/src/packages/${env?.source}/client/index.html`;
-    const ignoreSources = Object.keys(compiler)
-      .filter((val) => val !== env?.source)
+    const excludeFiles = fs.readdirSync(path.resolve(__dirname, '..') + '/src/packages')
+      .filter((val) => val !== env.source)
       .map((val) => `${path.resolve(__dirname, '..')}/src/packages/${val}/**`);
 
     const options = {
@@ -62,6 +62,9 @@ const handler = (env) => {
           cleanOnceBeforeBuildPatterns: [`${outdir}/${env?.source}/client`],
         }),
         new ForkTsCheckerWebpackPlugin({
+          issue: {
+            exclude: excludeFiles.map((file) => ({ file })),
+          },
           typescript: {
             diagnosticOptions: {
               semantic: true,
@@ -80,7 +83,7 @@ const handler = (env) => {
       },
       stats: process.env.WEBPACK_MODE === 'development' ? 'minimal' : 'normal',
       watch: process.env.WEBPACK_MODE === 'development',
-      watchOptions: ignoreSources.length !== 0 ? {ignored: ignoreSources} : {},
+      watchOptions: excludeFiles.length !== 0 ? {ignored: excludeFiles} : {},
       ...(process.env.WEBPACK_MODE === 'development' ? {devtool: 'cheap-module-source-map'} : {}),
     };
 
