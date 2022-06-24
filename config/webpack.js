@@ -1,4 +1,4 @@
 const server = require('./server');
 const client = require('./client');
 
-module.exports = [server, client];
+module.exports = Promise.all([server, client]);

@@ -7,7 +7,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const compiler = require('../compiler.json');
 const outdir = path.resolve(__dirname, '..') + '/dist';
 
-const handler = (env) => {
+const handler = async (env) => {
   if (env?.source && compiler[env?.source]?.server) {
     const excludeFiles = fs.readdirSync(path.resolve(__dirname, '..') + '/src/packages')
       .filter((val) => val !== env.source)
@@ -18,7 +18,7 @@ const handler = (env) => {
         ...compiler[env?.source]?.server,
       },
       mode: process.env.WEBPACK_MODE || 'production',
-      name: String(`${env?.source} server`).toUpperCase(),
+      name: String(`${env?.source}:server`).toUpperCase(),
       target: 'node',
       output: {
         path: `${outdir}/${env?.source}`,
