@@ -3,7 +3,6 @@
     "server": {
       "index": "/src/packages/demo/index.ts"
     },
-    "client": null,
-    "ignoreChecks": []
+    "client": "/src/packages/demo/client/index.ts"
   }
 }

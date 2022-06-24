@@ -8,14 +8,15 @@
     "npm": "8"
   },
   "scripts": {
-    "start": "WEBPACK_MODE=development NODEMON=true webpack --progress --config ./config/webpack.js --env",
-    "build": "WEBPACK_MODE=production webpack --progress --config ./config/webpack.js --env",
+    "start": "cross-env WEBPACK_MODE=development NODEMON=true webpack --progress --config ./config/webpack.js --env",
+    "build": "cross-env WEBPACK_MODE=production webpack --progress --config ./config/webpack.js --env",
     "test": "npx eslint .",
     "prepare": "husky install"
   },
   "author": "uraychrisna",
   "license": "ISC",
   "workspaces": [
-    "src/lib/core"
+    "src/lib/core",
+    "src/lib/client"
   ]
 }

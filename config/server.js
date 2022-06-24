@@ -8,14 +8,14 @@ const outdir = path.resolve(__dirname, '..') + '/dist';
 
 const handler = (env) => {
   if (env?.source && compiler[env?.source]?.server) {
-    const entry = Object.keys(compiler[env?.source]?.server)
-      .reduce((a, b) => ({...compiler[env?.source].server}), {});
     const ignoreSources = Object.keys(compiler)
       .filter((val) => val !== env?.source)
       .map((val) => `${path.resolve(__dirname, '..')}/src/packages/${val}/**`);
 
     const options = {
-      entry,
+      entry: {
+        ...compiler[env?.source]?.server,
+      },
       mode: process.env.WEBPACK_MODE || 'production',
       name: String(`${env?.source} server`).toUpperCase(),
       target: 'node',
@@ -65,6 +65,7 @@ const handler = (env) => {
         new NodemonPlugin({
           script: `${outdir}/${env?.source}/${env?.exec}`,
           watch: [`${outdir}/${env?.source}`, `${path.resolve(__dirname, '..')}/src/packages/${env?.source}`],
+          ignore: [`${outdir}/${env?.source}/client`, `${path.resolve(__dirname, '..')}/src/packages/${env?.source}/client`],
         }),
       );
     }
