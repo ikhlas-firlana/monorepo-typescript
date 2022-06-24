@@ -22,7 +22,7 @@
 
   "demo": {
     "server": {
-      "app": "/src/packages/demo/index.ts"
+      "index": "/src/packages/demo/index.ts"
     }
   }
 
@@ -32,14 +32,14 @@
 
 ```
 * with nodemon
-npm start source="demo" exec="app"
+npm start source="demo" exec="index"
 ```
 ```
 * without nodemon
 npm start source="demo"
 
 * and run project manually
-node dist/demo/app.js
+node dist/demo/index.js
 ```
 # Production
 ```

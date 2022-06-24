@@ -1,7 +1,7 @@
 {
   "demo": {
     "server": {
-      "app": "/src/packages/demo/index.ts"
+      "index": "/src/packages/demo/index.ts"
     },
     "client": null,
     "ignoreChecks": []

@@ -1,5 +1,10 @@
 {
   "presets": [
+    ["@babel/preset-typescript",
+      {
+        "allowDeclareFields": true
+      }
+    ],
     [
       "@babel/preset-env",
       {
@@ -11,9 +16,7 @@
           "version": 3
         }
       }
-    ],
-    "@babel/preset-typescript",
-    "@babel/preset-react"
+    ]
   ],
   "plugins": [
     [
@@ -22,7 +25,6 @@
         "legacy": true
       }
     ],
-    ["@babel/plugin-proposal-class-properties"],
     [
       "babel-plugin-root-import",
       {
